@@ -96,6 +96,27 @@ $env:POS_PASSWORD = "your_secure_password"
 
 ## 🔧 故障排除
 
+### ⚠️ 运行后无法打开 Windows Settings
+
+这是最常见的问题。脚本为了防止用户误操作，会禁用 Windows 设置和控制面板。
+
+**快速解决方案**：
+
+1. **运行修复脚本**：
+   ```batch
+   Enable_Settings.bat
+   ```
+
+2. **使用 PowerShell 命令**（以管理员身份）：
+   ```powershell
+   reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoControlPanel /f
+   Stop-Process -Name explorer -Force
+   Start-Process explorer
+   ```
+
+3. **查看详细指南**：
+   参考 [TROUBLESHOOTING.md](TROUBLESHOOTING.md) 了解更多解决方案
+
 ### 权限问题
 ```
 错误：This script requires Administrator privileges!

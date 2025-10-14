@@ -114,10 +114,12 @@ POS-Setup-Tools/
 ├── Restore PC/
 │   ├── POS_restore.bat         # 恢复启动器
 │   └── POS_restore.ps1         # 恢复脚本
+├── Enable_Settings.bat         # 快速修复：重新启用 Settings
 ├── Set_POS_Password.bat        # 密码设置工具
 ├── Test_Syntax.ps1             # 语法验证工具
 ├── SECURITY_GUIDE.md           # 安全使用指南
 ├── SECURITY_IMPROVEMENTS.md    # 安全改进报告
+├── TROUBLESHOOTING.md          # 故障排除指南（必读）
 ├── .gitignore
 └── README.md
 ```
@@ -157,6 +159,28 @@ $env:POS_PASSWORD = "YourSecurePassword"
 
 ## 🔧 故障排除
 
+### ⚠️ 重要提示：运行 Setup 后无法打开 Settings？
+
+运行 POS Setup 脚本后，Windows 设置（Settings）和控制面板会被禁用以防止误操作。
+
+**快速解决方案**：
+
+1. **一键修复（推荐）**：
+   ```batch
+   Enable_Settings.bat
+   ```
+   双击运行此文件即可重新启用 Settings
+
+2. **手动命令**：
+   ```powershell
+   # 以管理员身份运行 PowerShell
+   reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoControlPanel /f
+   Stop-Process -Name explorer -Force
+   Start-Process explorer
+   ```
+
+详细故障排除指南请查看 [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+
 ### 常见问题
 
 **Q: 提示需要管理员权限？**
@@ -167,6 +191,9 @@ A: 运行 `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
 
 **Q: 恢复后某些设置没有还原？**
 A: 检查 `C:\POS\Backup\` 目录中的备份文件，可能需要手动导入
+
+**Q: 无法访问外部网络？**
+A: 脚本配置了严格防火墙。运行 `netsh advfirewall set allprofiles firewallpolicy blockinbound,allowoutbound` 允许出站流量
 
 ### 日志位置
 
