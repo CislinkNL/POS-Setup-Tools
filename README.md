@@ -6,6 +6,18 @@
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue.svg)]()
 [![Windows](https://img.shields.io/badge/Windows-11-0078D6.svg)]()
 
+---
+
+## 🚀 现场工作人员快速入口
+
+### 📖 **[查看快速参考手册 (QUICK_REFERENCE.md)](QUICK_REFERENCE.md)**
+所有常用命令、网络配置、打印机设置、故障修复的**一站式解决方案**
+
+### 📚 **[查看文档索引 (INDEX.md)](INDEX.md)**
+按场景快速查找所需文档和命令
+
+---
+
 ## 📋 概述
 
 这是一套用于快速配置和管理 Windows 11 POS 系统的专业脚本工具。包含系统优化、安全配置、网络设置、远程管理等功能，并提供完整的恢复机制。
