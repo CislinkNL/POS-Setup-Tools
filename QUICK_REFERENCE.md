@@ -619,6 +619,11 @@ Remove-Item -Path "C:\Windows\System32\spool\PRINTERS\*" -Force
 Start-Service Spooler
 ```
 
+**Epson POS 打印机专项**：
+- 📖 查看详细指南：`docs\Epson_POS_Printer_Guide.md`
+- 🛠️ 快速安装工具：`Install_Epson_Printer.bat`
+- 支持型号：TM-T20/T20II/T20III, TM-M30/M30II, TM-T88V/T88VI
+
 ### Windows Update 无法更新
 
 ```powershell
@@ -703,6 +708,7 @@ Start-Service -Name "WSearch"
 | **配置网卡 IP** | `Win + R` → `ncpa.cpl` | 🔥 **最常用！** 打开网络连接 |
 | **网络设为专用** | `Set-NetConnectionProfile -NetworkCategory Private` | 🔥 **内网必备！** 启用共享 |
 | **启用文件共享** | 见"网络共享和发现"章节 | 完整配置脚本 |
+| **安装 Epson 打印机** | `Install_Epson_Printer.bat` | 🖨️ 支持 TM-T20/M30/T88 系列 |
 | **添加打印机** | `Win + R` → `control printers` | 打印机管理 |
 | **用户自动登录** | `Win + R` → `netplwiz` | 配置自动登录 |
 | **管理服务** | `Win + R` → `services.msc` | 启动/停止服务 |

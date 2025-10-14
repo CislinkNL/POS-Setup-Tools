@@ -69,6 +69,13 @@
 - [`QUICK_FIX_SETTINGS.md`](./docs/QUICK_FIX_SETTINGS.md) - 快速修复指南
 - [`Settings修复指南.md`](./docs/Settings修复指南.md) - 中文详细指南
 
+### 打印机安装
+
+- [`Epson_POS_Printer_Guide.md`](./docs/Epson_POS_Printer_Guide.md) - 🖨️ Epson POS 打印机完整安装指南
+  - 支持型号：TM-T20/T20II/T20III/T20X, TM-M30/M30II/M30III, TM-T88V/T88VI
+  - USB 和网络安装步骤
+  - 故障排除和高级配置
+
 ### 项目信息
 
 - [`REPO_INFO.md`](./docs/REPO_INFO.md) - 仓库信息和 Git 使用
