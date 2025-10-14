@@ -10,10 +10,12 @@
 
 ## 🚀 现场工作人员快速入口
 
-### 📖 **[查看快速参考手册 (QUICK_REFERENCE.md)](QUICK_REFERENCE.md)**
+### 📖 **[查看快速参考手册 (QUICK_REFERENCE.md)](./QUICK_REFERENCE.md)**
+
 所有常用命令、网络配置、打印机设置、故障修复的**一站式解决方案**
 
-### 📚 **[查看文档索引 (INDEX.md)](INDEX.md)**
+### 📚 **[查看文档索引 (INDEX.md)](./INDEX.md)**
+
 按场景快速查找所需文档和命令
 
 ---

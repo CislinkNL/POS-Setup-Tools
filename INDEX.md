@@ -2,7 +2,8 @@
 
 ## 📖 核心文档（必读）
 
-### 🚀 QUICK_REFERENCE.md
+### 🚀 [QUICK_REFERENCE.md](./QUICK_REFERENCE.md)
+
 **日常运维必备手册** - 所有常用命令和快速修复方案的集合
 
 **包含内容**：
@@ -19,7 +20,8 @@
 
 ---
 
-### 📘 README.md
+### 📘 [README.md](./README.md)
+
 **项目说明和快速开始指南**
 
 **包含内容**：
@@ -32,7 +34,8 @@
 
 ---
 
-### ⚠️ TROUBLESHOOTING.md
+### ⚠️ [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
+
 **详细故障排除指南**
 
 **包含内容**：
@@ -51,21 +54,25 @@
 ## 📂 详细文档（docs/ 目录）
 
 ### 安全相关
-- `SECURITY_GUIDE.md` - 安全使用指南
-- `SECURITY_IMPROVEMENTS.md` - 安全改进说明
+
+- [`SECURITY_GUIDE.md`](./docs/SECURITY_GUIDE.md) - 安全使用指南
+- [`SECURITY_IMPROVEMENTS.md`](./docs/SECURITY_IMPROVEMENTS.md) - 安全改进说明
 
 ### RustDesk 远程管理
-- `RustDesk_Service_Guide.md` - 完整安装和配置指南
-- `RustDesk_Quick_Reference.md` - 快速命令参考
-- `RustDesk_Implementation_Report.md` - 实施报告
+
+- [`RustDesk_Service_Guide.md`](./docs/RustDesk_Service_Guide.md) - 完整安装和配置指南
+- [`RustDesk_Quick_Reference.md`](./docs/RustDesk_Quick_Reference.md) - 快速命令参考
+- [`RustDesk_Implementation_Report.md`](./docs/RustDesk_Implementation_Report.md) - 实施报告
 
 ### Settings 修复
-- `QUICK_FIX_SETTINGS.md` - 快速修复指南
-- `Settings修复指南.md` - 中文详细指南
+
+- [`QUICK_FIX_SETTINGS.md`](./docs/QUICK_FIX_SETTINGS.md) - 快速修复指南
+- [`Settings修复指南.md`](./docs/Settings修复指南.md) - 中文详细指南
 
 ### 项目信息
-- `REPO_INFO.md` - 仓库信息和 Git 使用
-- `UPDATE_SUMMARY.md` - 更新摘要
+
+- [`REPO_INFO.md`](./docs/REPO_INFO.md) - 仓库信息和 Git 使用
+- [`UPDATE_SUMMARY.md`](./docs/UPDATE_SUMMARY.md) - 更新摘要
 
 ---
 
@@ -73,16 +80,16 @@
 
 | 我想... | 查看文档 | 章节/命令 |
 |---------|----------|-----------|
-| **配置网卡 IP** | QUICK_REFERENCE.md | 🌐 网络配置 |
-| **添加打印机** | QUICK_REFERENCE.md | 🖨️ 打印机配置 |
-| **更改系统语言** | QUICK_REFERENCE.md | 🌍 语言和区域设置 |
-| **Settings 打不开** | QUICK_REFERENCE.md | ⚠️ Settings 无法打开 |
-| **配置远程访问** | QUICK_REFERENCE.md | 🖥️ RustDesk 远程管理 |
-| **管理服务** | QUICK_REFERENCE.md | ⚙️ 系统管理工具 |
-| **配置防火墙** | QUICK_REFERENCE.md | 🔥 防火墙配置 |
-| **完整安装 POS** | README.md | 快速开始 |
-| **解决复杂问题** | TROUBLESHOOTING.md | 按问题类型查找 |
-| **RustDesk 详细配置** | docs/RustDesk_Service_Guide.md | 完整指南 |
+| **配置网卡 IP** | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md#网络配置) | 🌐 网络配置 |
+| **添加打印机** | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md#打印机配置) | 🖨️ 打印机配置 |
+| **更改系统语言** | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md#语言和区域设置) | 🌍 语言和区域设置 |
+| **Settings 打不开** | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md#settings-无法打开) | ⚠️ Settings 无法打开 |
+| **配置远程访问** | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md#rustdesk-远程管理) | 🖥️ RustDesk 远程管理 |
+| **管理服务** | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md#系统管理工具) | ⚙️ 系统管理工具 |
+| **配置防火墙** | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md#防火墙配置) | 🔥 防火墙配置 |
+| **完整安装 POS** | [README.md](./README.md#快速开始) | 快速开始 |
+| **解决复杂问题** | [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) | 按问题类型查找 |
+| **RustDesk 详细配置** | [docs/RustDesk_Service_Guide.md](./docs/RustDesk_Service_Guide.md) | 完整指南 |
 
 ---
 
