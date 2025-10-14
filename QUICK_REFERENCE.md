@@ -91,6 +91,48 @@ Set-NetIPInterface -InterfaceAlias "以太网" -Dhcp Enabled
 Set-DnsClientServerAddress -InterfaceAlias "以太网" -ResetServerAddresses
 ```
 
+### 🔥 网络配置文件（公用/专用）- 重要！
+
+**影响范围**：网络发现、文件共享、打印机共享
+
+```powershell
+# 查看当前网络配置文件类型
+Get-NetConnectionProfile
+
+# 设置为专用网络（推荐用于内网/办公室）
+Set-NetConnectionProfile -InterfaceAlias "以太网" -NetworkCategory Private
+
+# 设置为公用网络（用于公共场所，限制共享）
+Set-NetConnectionProfile -InterfaceAlias "以太网" -NetworkCategory Public
+
+# 或使用 InterfaceIndex
+$InterfaceIndex = (Get-NetAdapter -Name "以太网").ifIndex
+Set-NetConnectionProfile -InterfaceIndex $InterfaceIndex -NetworkCategory Private
+```
+
+**网络类型说明**：
+
+| 类型 | 适用场景 | 网络发现 | 文件共享 | 安全级别 |
+|------|---------|---------|---------|---------|
+| **Private（专用）** | 内网、办公室、家庭 | ✅ 启用 | ✅ 可用 | 中 |
+| **Public（公用）** | 咖啡厅、机场、酒店 | ❌ 禁用 | ❌ 禁用 | 高 |
+| **Domain（域）** | 企业域环境 | ✅ 启用 | ✅ 可用 | 由策略控制 |
+
+**快速设置（使用 UI）**：
+```batch
+# 方法 1: 设置应用
+Win + I → 网络和 Internet → 以太网 → 网络配置文件类型
+
+# 方法 2: 网络和共享中心
+Win + R → control.exe /name Microsoft.NetworkAndSharingCenter
+# 点击当前网络 → 选择"专用"或"公用"
+```
+
+**POS 系统推荐配置**：
+- ✅ 设置为 **专用网络**（内网环境）
+- ✅ 启用网络发现和文件共享
+- ✅ 允许打印机和设备共享
+
 ### 网络诊断
 
 ```powershell
@@ -115,14 +157,82 @@ netsh winsock reset
 netsh int ip reset
 ```
 
-### 网络共享和发现
+### 🔥 网络共享和发现（内网必备）
+
+**一键启用网络发现和文件共享**：
 
 ```powershell
-# 启用网络发现
+# 1. 设置网络为专用
+Set-NetConnectionProfile -NetworkCategory Private
+
+# 2. 启用网络发现（允许看到其他设备）
 netsh advfirewall firewall set rule group="Network Discovery" new enable=Yes
 
-# 启用文件和打印机共享
+# 3. 启用文件和打印机共享
 netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
+
+# 4. 启用 SMB 文件共享服务
+Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force  # 禁用不安全的SMB1
+Set-SmbServerConfiguration -EnableSMB2Protocol $true -Force    # 启用SMB2/3
+```
+
+**验证配置**：
+
+```powershell
+# 查看当前网络类型
+Get-NetConnectionProfile
+
+# 查看防火墙规则
+Get-NetFirewallRule -DisplayGroup "Network Discovery" | Where-Object {$_.Enabled -eq 'True'}
+Get-NetFirewallRule -DisplayGroup "File and Printer Sharing" | Where-Object {$_.Enabled -eq 'True'}
+
+# 查看 SMB 配置
+Get-SmbServerConfiguration | Select-Object EnableSMB1Protocol, EnableSMB2Protocol
+```
+
+**完整配置脚本（内网共享）**：
+
+```powershell
+# 内网完整配置脚本
+$InterfaceAlias = "以太网"  # 根据实际网卡名称修改
+
+Write-Host "配置内网共享..." -ForegroundColor Green
+
+# 1. 设置专用网络
+Set-NetConnectionProfile -InterfaceAlias $InterfaceAlias -NetworkCategory Private
+Write-Host "✓ 网络类型已设置为：专用" -ForegroundColor Green
+
+# 2. 启用网络发现
+netsh advfirewall firewall set rule group="Network Discovery" new enable=Yes
+Write-Host "✓ 网络发现已启用" -ForegroundColor Green
+
+# 3. 启用文件和打印机共享
+netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
+Write-Host "✓ 文件和打印机共享已启用" -ForegroundColor Green
+
+# 4. 启用 SMB 服务
+Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol" -NoRestart -WarningAction SilentlyContinue | Out-Null
+Set-SmbServerConfiguration -EnableSMB2Protocol $true -Force
+Write-Host "✓ SMB 文件共享已启用" -ForegroundColor Green
+
+Write-Host "`n✅ 内网共享配置完成！" -ForegroundColor Green
+Write-Host "现在可以：" -ForegroundColor Yellow
+Write-Host "  - 在文件资源管理器中看到其他设备" -ForegroundColor Yellow
+Write-Host "  - 访问共享文件夹：\\computername\share" -ForegroundColor Yellow
+Write-Host "  - 使用网络打印机" -ForegroundColor Yellow
+```
+
+**故障排除**：
+
+```powershell
+# 如果无法发现其他设备
+# 检查服务状态
+Get-Service -Name "FDResPub" | Start-Service  # 函数发现资源发布
+Get-Service -Name "SSDPSRV" | Start-Service  # SSDP 发现
+Get-Service -Name "upnphost" | Start-Service # UPnP 设备主机
+
+# 重启网络发现
+Restart-Service FDResPub, SSDPSRV, upnphost
 ```
 
 ---
@@ -591,6 +701,8 @@ Start-Service -Name "WSearch"
 | 场景 | 快速命令/脚本 | 说明 |
 |------|--------------|------|
 | **配置网卡 IP** | `Win + R` → `ncpa.cpl` | 🔥 **最常用！** 打开网络连接 |
+| **网络设为专用** | `Set-NetConnectionProfile -NetworkCategory Private` | 🔥 **内网必备！** 启用共享 |
+| **启用文件共享** | 见"网络共享和发现"章节 | 完整配置脚本 |
 | **添加打印机** | `Win + R` → `control printers` | 打印机管理 |
 | **用户自动登录** | `Win + R` → `netplwiz` | 配置自动登录 |
 | **管理服务** | `Win + R` → `services.msc` | 启动/停止服务 |
