@@ -1,6 +1,7 @@
 # ===============================================
 # Install_RustDesk_Service.ps1
 # 自动安装和配置 RustDesk 为 Windows 服务
+# 使用 Cislink 预配置客户端
 # ===============================================
 
 # 检查管理员权限
@@ -11,23 +12,67 @@ if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit 1
 }
 
-Write-Host "=== RustDesk 服务安装工具 ===" -ForegroundColor Cyan
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "  RustDesk 服务安装工具 (Cislink)" -ForegroundColor Cyan
+Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
-# RustDesk 路径
+# Cislink 预配置版本下载地址
+$CislinkRustDeskUrl = "https://cislink.nl/radmin/RustDesk_Cislink_Setup.exe"
+$TempInstallerPath = "$env:TEMP\RustDesk_Cislink_Setup.exe"
 $RustDeskPath = "C:\Program Files\RustDesk\rustdesk.exe"
 
 # 检查 RustDesk 是否已安装
 if (-not (Test-Path $RustDeskPath)) {
-    Write-Error "❌ 未找到 RustDesk！" -ForegroundColor Red
+    Write-Host "RustDesk 未安装，开始下载 Cislink 预配置版本..." -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "请先安装 RustDesk:" -ForegroundColor Yellow
-    Write-Host "  1. 访问: https://rustdesk.com/" -ForegroundColor Cyan
-    Write-Host "  2. 下载 Windows 版本" -ForegroundColor Cyan
-    Write-Host "  3. 安装到默认路径: $RustDeskPath" -ForegroundColor Cyan
+    Write-Host "下载地址: $CislinkRustDeskUrl" -ForegroundColor Gray
+    Write-Host "保存到: $TempInstallerPath" -ForegroundColor Gray
     Write-Host ""
-    Pause
-    Exit 1
+    
+    try {
+        Write-Host "正在下载..." -ForegroundColor Cyan
+        # 使用 .NET WebClient 下载（更可靠）
+        $webClient = New-Object System.Net.WebClient
+        $webClient.DownloadFile($CislinkRustDeskUrl, $TempInstallerPath)
+        Write-Host "✓ 下载完成" -ForegroundColor Green
+        
+        # 运行安装程序
+        Write-Host ""
+        Write-Host "正在安装 RustDesk..." -ForegroundColor Cyan
+        Write-Host "（安装程序会自动运行，请等待安装完成）" -ForegroundColor Yellow
+        
+        Start-Process -FilePath $TempInstallerPath -Wait
+        
+        # 等待安装完成并验证
+        Start-Sleep -Seconds 5
+        
+        if (Test-Path $RustDeskPath) {
+            Write-Host "✓ RustDesk 安装成功" -ForegroundColor Green
+            
+            # 清理安装文件
+            Remove-Item -Path $TempInstallerPath -Force -ErrorAction SilentlyContinue
+        } else {
+            Write-Error "❌ 安装失败：找不到 RustDesk 执行文件" -ForegroundColor Red
+            Write-Host "请手动下载并安装: $CislinkRustDeskUrl" -ForegroundColor Yellow
+            Pause
+            Exit 1
+        }
+        
+    } catch {
+        Write-Error "❌ 下载/安装失败: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host ""
+        Write-Host "请手动安装：" -ForegroundColor Yellow
+        Write-Host "  1. 访问: $CislinkRustDeskUrl" -ForegroundColor Cyan
+        Write-Host "  2. 下载并运行安装程序" -ForegroundColor Cyan
+        Write-Host "  3. 重新运行此脚本" -ForegroundColor Cyan
+        Write-Host ""
+        Pause
+        Exit 1
+    }
+} else {
+    Write-Host "✓ 找到 RustDesk: $RustDeskPath" -ForegroundColor Green
+    Write-Host "  （使用 Cislink 预配置版本，已包含服务器地址和密钥）" -ForegroundColor Gray
 }
 
 Write-Host "✓ 找到 RustDesk: $RustDeskPath" -ForegroundColor Green

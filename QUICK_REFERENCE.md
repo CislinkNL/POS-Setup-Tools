@@ -534,14 +534,24 @@ netsh advfirewall firewall add rule name="Loopback" dir=in action=allow localip=
 
 ---
 
-## 🖥️ RustDesk 远程管理
+## 🖥️ RustDesk 远程管理（Cislink 版本）
 
-### 快速安装
+### 🔥 快速安装（Cislink 预配置版本）
 
 ```batch
-# 一键安装 RustDesk 服务
+# 一键安装 Cislink 预配置的 RustDesk 服务
+# 已包含服务器地址和密钥，无需额外配置
 Install_RustDesk_Service.bat
 ```
+
+**特点**：
+- ✅ 自动下载并安装 Cislink 预配置客户端
+- ✅ 服务器地址已预设（连接到 Cislink 服务器）
+- ✅ 密钥已预配置，即装即用
+- ✅ 自动安装为 Windows 服务
+- ✅ 配置防火墙规则
+
+**下载地址**：https://cislink.nl/radmin/RustDesk_Cislink_Setup.exe
 
 ### 常用命令
 
@@ -558,7 +568,7 @@ Stop-Service RustDesk
 # 重启服务
 Restart-Service RustDesk
 
-# 设置永久密码
+# 设置永久密码（可选）
 & "C:\Program Files\RustDesk\rustdesk.exe" --password "YourPassword123"
 
 # 查看版本

@@ -60,6 +60,10 @@
 
 ### RustDesk 远程管理
 
+- [`RustDesk_Cislink_Version.md`](./docs/RustDesk_Cislink_Version.md) - 🔥 **Cislink 预配置版本说明**
+  - 即装即用，无需手动配置
+  - 服务器地址和密钥已预设
+  - 批量部署指南
 - [`RustDesk_Service_Guide.md`](./docs/RustDesk_Service_Guide.md) - 完整安装和配置指南
 - [`RustDesk_Quick_Reference.md`](./docs/RustDesk_Quick_Reference.md) - 快速命令参考
 - [`RustDesk_Implementation_Report.md`](./docs/RustDesk_Implementation_Report.md) - 实施报告
