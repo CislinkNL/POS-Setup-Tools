@@ -1,0 +1,38 @@
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Logs
+*.log
+logs/
+C:\POS\Logs/
+
+# Backup files
+*.bak
+*.backup
+*.reg
+C:\POS\Backup/
+
+# Temporary files
+*.tmp
+~$*
+
+# PowerShell
+*.ps1.bak
+
+# Sensitive information
+.env
+*.env
+config.local.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
