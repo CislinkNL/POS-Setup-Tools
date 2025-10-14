@@ -30,8 +30,26 @@
 - ✅ 安全和隐私加固
 - ✅ 性能优化（禁用不必要的服务）
 - ✅ 防火墙配置（内网访问，外网阻止）
-- ✅ RustDesk 远程管理配置
+- ✅ **RustDesk 远程管理配置**（自动安装为服务）
 - ✅ POS 应用自动启动
+
+### RustDesk 远程管理工具
+
+**独立安装工具** - 如果需要单独安装或重新配置 RustDesk：
+
+```batch
+# 双击运行（需要管理员权限）
+Install_RustDesk_Service.bat
+```
+
+**功能**：
+- 🖥️ 自动安装 RustDesk 为 Windows 服务
+- 🚀 配置服务自动启动
+- 🔥 添加防火墙规则
+- 🔐 可选设置永久密码
+- ✅ 即使无人登录也能远程访问
+
+📖 **详细指南**：查看 [RustDesk_Service_Guide.md](RustDesk_Service_Guide.md)
 
 ### 系统恢复 (`POS_restore.ps1`)
 
@@ -109,17 +127,22 @@ POS_restore.bat
 ```
 POS-Setup-Tools/
 ├── New POS Setup/
-│   ├── POS_Setup.bat          # 启动器
-│   └── POS_Setup.ps1           # 主配置脚本
+│   ├── POS_Setup.bat               # 启动器
+│   └── POS_Setup.ps1                # 主配置脚本
 ├── Restore PC/
-│   ├── POS_restore.bat         # 恢复启动器
-│   └── POS_restore.ps1         # 恢复脚本
-├── Enable_Settings.bat         # 快速修复：重新启用 Settings
-├── Set_POS_Password.bat        # 密码设置工具
-├── Test_Syntax.ps1             # 语法验证工具
-├── SECURITY_GUIDE.md           # 安全使用指南
-├── SECURITY_IMPROVEMENTS.md    # 安全改进报告
-├── TROUBLESHOOTING.md          # 故障排除指南（必读）
+│   ├── POS_restore.bat              # 恢复启动器
+│   └── POS_restore.ps1              # 恢复脚本
+├── Enable_Settings.bat              # 快速修复：重新启用 Settings
+├── Install_RustDesk_Service.bat     # RustDesk 服务安装（新增）
+├── Install_RustDesk_Service.ps1     # RustDesk 服务安装脚本（新增）
+├── Set_POS_Password.bat             # 密码设置工具
+├── Test_Syntax.ps1                  # 语法验证工具
+├── SECURITY_GUIDE.md                # 安全使用指南
+├── SECURITY_IMPROVEMENTS.md         # 安全改进报告
+├── TROUBLESHOOTING.md               # 故障排除指南（必读）
+├── RustDesk_Service_Guide.md        # RustDesk 服务详细指南（新增）
+├── QUICK_FIX_SETTINGS.md            # Settings 快速修复
+├── Settings修复指南.md              # Settings 修复中文指南
 ├── .gitignore
 └── README.md
 ```

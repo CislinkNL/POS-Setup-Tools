@@ -176,33 +176,74 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultP
 #### 症状
 - RustDesk 无法启动
 - 远程连接失败
+- 服务未运行
 
 #### 解决方案
 
-**检查服务状态**：
+**方法 1: 使用安装工具（推荐）**
+
+如果 RustDesk 服务有问题，最简单的方法是重新安装：
+
+```batch
+# 双击运行（以管理员身份）
+Install_RustDesk_Service.bat
+```
+
+这会自动：
+- 检测并卸载旧服务
+- 重新安装服务
+- 配置自动启动
+- 添加防火墙规则
+
+**方法 2: 手动修复**
 
 ```powershell
+# 1. 检查服务状态
 Get-Service RustDesk
-```
 
-**重启服务**：
+# 2. 如果服务停止，尝试启动
+Start-Service RustDesk
 
-```powershell
+# 3. 如果启动失败，重启服务
 Restart-Service RustDesk -Force
-```
 
-**检查防火墙规则**：
-
-```powershell
-netsh advfirewall firewall show rule name="RustDesk"
-```
-
-**重新添加防火墙规则**：
-
-```powershell
+# 4. 如果仍失败，重新安装服务
 $RustDeskPath = "C:\Program Files\RustDesk\rustdesk.exe"
-netsh advfirewall firewall add rule name="RustDesk" dir=in action=allow program="$RustDeskPath" enable=yes
+& $RustDeskPath --uninstall-service
+Start-Sleep -Seconds 2
+& $RustDeskPath --install-service
+Set-Service RustDesk -StartupType Automatic
+Start-Service RustDesk
 ```
+
+**方法 3: 检查并修复防火墙**
+
+```powershell
+# 检查防火墙规则
+netsh advfirewall firewall show rule name="RustDesk"
+
+# 重新添加防火墙规则
+$RustDeskPath = "C:\Program Files\RustDesk\rustdesk.exe"
+netsh advfirewall firewall delete rule name="RustDesk"
+netsh advfirewall firewall add rule name="RustDesk" dir=in action=allow program="$RustDeskPath" enable=yes
+netsh advfirewall firewall add rule name="RustDesk" dir=out action=allow program="$RustDeskPath" enable=yes
+```
+
+**方法 4: 验证 RustDesk 安装**
+
+```powershell
+# 检查 RustDesk 是否正确安装
+$RustDeskPath = "C:\Program Files\RustDesk\rustdesk.exe"
+if (Test-Path $RustDeskPath) {
+    Write-Host "✓ RustDesk 已安装" -ForegroundColor Green
+    & $RustDeskPath --version
+} else {
+    Write-Host "❌ RustDesk 未安装或路径错误" -ForegroundColor Red
+    Write-Host "请从 https://rustdesk.com/ 下载并安装"
+}
+```
+
+**详细指南**: 查看 [RustDesk_Service_Guide.md](RustDesk_Service_Guide.md) 获取完整的安装和故障排除说明
 
 ---
 
