@@ -71,6 +71,31 @@ Install_RustDesk_Service.bat
 
 📖 **详细指南**：查看 [RustDesk_Service_Guide.md](RustDesk_Service_Guide.md)
 
+### 🔒 Kiosk Mode 锁定模式（新增）
+
+**功能**：防止员工退出 POS 程序访问桌面，需要密码才能退出
+
+```batch
+# 双击运行配置工具（需要管理员权限）
+Enable_Kiosk_Mode.bat
+```
+
+**四种锁定方案**：
+- 🔥 **Shell Launcher**：最安全，完全替换系统 Shell（推荐，需要 Pro/Enterprise）
+- 🖥️ **Assigned Access**：Windows 原生展台模式（需要 Pro/Enterprise）
+- 🔐 **注册表锁定**：限制系统功能，支持所有版本（包括 Home）
+- ⚙️ **自定义 Shell**：开机直接启动 POS，完全隐藏桌面（高级用户）
+
+**核心功能**：
+- ✅ 需要密码才能退出 POS 程序
+- ✅ 禁用任务管理器和系统快捷键
+- ✅ 防止访问桌面和文件系统
+- ✅ 程序崩溃自动重启（Shell Launcher）
+- ✅ 远程管理员可通过密码解锁
+- ✅ 完全可逆，提供恢复方案
+
+📖 **完整指南**：查看 [Kiosk_Mode_Guide.md](docs/Kiosk_Mode_Guide.md)
+
 ### 系统恢复 (`POS_restore.ps1`)
 
 - ✅ 恢复 Windows 默认设置
@@ -164,8 +189,14 @@ POS-Setup-Tools/
 │   ├── POS_restore.bat              # 恢复启动器
 │   └── POS_restore.ps1              # 恢复脚本
 ├── Enable_Settings.bat              # 快速修复：重新启用 Settings
-├── Install_RustDesk_Service.bat     # RustDesk 服务安装（新增）
-├── Install_RustDesk_Service.ps1     # RustDesk 服务安装脚本（新增）
+├── Enable_Kiosk_Mode.bat            # 🔒 Kiosk 模式配置工具（新增）
+├── Enable_Kiosk_Mode.ps1            # Kiosk 模式配置脚本（新增）
+├── Install_RustDesk_Service.bat     # RustDesk 服务安装
+├── Install_RustDesk_Service.ps1     # RustDesk 服务安装脚本
+├── Install_Epson_Printer.bat        # Epson 打印机安装工具
+├── Install_Epson_Printer.ps1        # Epson 打印机安装脚本
+├── Enable_Network_Sharing.bat       # 网络共享配置工具
+├── Enable_Network_Sharing.ps1       # 网络共享配置脚本
 ├── Set_POS_Password.bat             # 密码设置工具
 ├── Test_Syntax.ps1                  # 语法验证工具
 ├── SECURITY_GUIDE.md                # 安全使用指南
