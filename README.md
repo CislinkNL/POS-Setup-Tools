@@ -84,9 +84,20 @@ Install_RustDesk_Service.bat
 
 ### 系统要求
 
-- Windows 11 Pro
-- PowerShell 5.1 或更高版本
+#### ✅ 完全支持的系统
+- **Windows 11 Pro / Enterprise / Education** (推荐)
+- **Windows 10 Pro / Enterprise / Education** (Build 10240+)
+  - 包括所有 Windows 10 版本：1507, 1511, 1607, 1703, 1709, 1803, 1809, 1903, 1909, 2004, 20H2, 21H1, 21H2, 22H2
+- PowerShell 5.1 或更高版本（Windows 10/11 自带）
 - 管理员权限
+
+#### ⚠️ 有限支持
+- **Windows 10 Home**: 可运行，但部分高级功能（组策略）不可用
+- **Windows Server 2016/2019/2022**: 可运行，但某些桌面功能可能不适用
+
+#### ❌ 不支持的系统
+- Windows 8.1 及更早版本
+- Windows 10 Build 10240 以下（初始预览版）
 
 ### 安装步骤
 

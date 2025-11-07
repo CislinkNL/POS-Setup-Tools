@@ -14,16 +14,49 @@ if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 
 # 系统兼容性检查
 $OSVersion = [System.Environment]::OSVersion.Version
-if ($OSVersion.Major -lt 10 -or ($OSVersion.Major -eq 10 -and $OSVersion.Build -lt 22000)) {
-    Write-Warning "⚠️  This script is optimized for Windows 11. Some features may not work properly on older versions."
+$OSBuild = $OSVersion.Build
+$OSName = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+
+# Windows 版本判断
+# Build 22000+ = Windows 11
+# Build 10240-19045 = Windows 10
+# Build < 10240 = Windows 8.1 或更早
+$IsWindows11 = ($OSVersion.Major -eq 10 -and $OSBuild -ge 22000)
+$IsWindows10 = ($OSVersion.Major -eq 10 -and $OSBuild -ge 10240 -and $OSBuild -lt 22000)
+$IsWindowsServer = $OSName -like "*Server*"
+
+Write-Host "=== POS System Optimization Script Starting... ===" -ForegroundColor Cyan
+Write-Host "System: $OSName (Build $OSBuild)" -ForegroundColor Gray
+
+# 检查是否为支持的系统
+if ($IsWindows11) {
+    Write-Host "✓ Windows 11 detected - Fully supported" -ForegroundColor Green
+} elseif ($IsWindows10) {
+    # 检查是否为 Pro/Enterprise 版本
+    if ($OSName -like "*Pro*" -or $OSName -like "*Enterprise*" -or $OSName -like "*Education*") {
+        Write-Host "✓ Windows 10 Pro/Enterprise detected - Fully supported" -ForegroundColor Green
+    } else {
+        Write-Warning "⚠️  Windows 10 Home detected. Some features (e.g., Group Policy) may not be available."
+        Write-Host "This script is designed for Windows 10/11 Pro or Enterprise." -ForegroundColor Yellow
+        $continue = Read-Host "Do you want to continue anyway? (y/N)"
+        if ($continue -ne 'y' -and $continue -ne 'Y') {
+            Exit 0
+        }
+    }
+} elseif ($IsWindowsServer) {
+    Write-Warning "⚠️  Windows Server detected. This script is designed for desktop Windows."
+    Write-Host "Some features may not work as expected on Server editions." -ForegroundColor Yellow
     $continue = Read-Host "Do you want to continue anyway? (y/N)"
     if ($continue -ne 'y' -and $continue -ne 'Y') {
         Exit 0
     }
+} else {
+    Write-Error "❌ Unsupported Windows version detected!"
+    Write-Host "This script requires Windows 10 (Build 10240+) or Windows 11." -ForegroundColor Red
+    Write-Host "Your version: $OSName (Build $OSBuild)" -ForegroundColor Yellow
+    Pause
+    Exit 1
 }
-
-Write-Host "=== POS System Optimization Script Starting... ===" -ForegroundColor Cyan
-Write-Host "System: Windows $($OSVersion.Major).$($OSVersion.Minor) Build $($OSVersion.Build)" -ForegroundColor Gray
 
 # 创建日志和备份目录
 $LogDir = "C:\POS\Logs"
