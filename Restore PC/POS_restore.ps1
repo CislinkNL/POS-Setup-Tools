@@ -158,6 +158,7 @@ if (Get-Service -Name "RustDesk" -ErrorAction SilentlyContinue) {
 # 删除防火墙规则
 netsh advfirewall firewall delete rule name="RustDesk" | Out-Null
 netsh advfirewall firewall delete rule name="RustDesk Service" | Out-Null
+netsh advfirewall firewall delete rule name="RustDesk Service Out" | Out-Null
 netsh advfirewall firewall delete rule name="POS Internal Inbound - 192.168.0.0/16" | Out-Null
 netsh advfirewall firewall delete rule name="POS Internal Outbound - 192.168.0.0/16" | Out-Null
 netsh advfirewall firewall delete rule name="POS Internal Inbound - 10.0.0.0/8" | Out-Null
@@ -167,6 +168,16 @@ netsh advfirewall firewall delete rule name="POS Internal Outbound - 172.16.0.0/
 netsh advfirewall firewall delete rule name="POS Loopback" | Out-Null
 netsh advfirewall firewall delete rule name="POS Loopback Out" | Out-Null
 netsh advfirewall firewall delete rule name="POS Internal Network" | Out-Null
+netsh advfirewall firewall delete rule name="POS Python Server Inbound" | Out-Null
+netsh advfirewall firewall delete rule name="POS Python Server Outbound" | Out-Null
+netsh advfirewall firewall delete rule name="Chrome Remote Desktop" | Out-Null
+netsh advfirewall firewall delete rule name="Chrome Remote Desktop Out" | Out-Null
+netsh advfirewall firewall delete rule name="Cloudflare Tunnel" | Out-Null
+netsh advfirewall firewall delete rule name="Cloudflare Tunnel Out" | Out-Null
+netsh advfirewall firewall delete rule name="HTTPS Outbound" | Out-Null
+netsh advfirewall firewall delete rule name="HTTP Outbound" | Out-Null
+netsh advfirewall firewall delete rule name="DNS Outbound" | Out-Null
+netsh advfirewall firewall delete rule name="DNS TCP Outbound" | Out-Null
 
 # --- 10. 恢复任务栏与桌面 ---
 Write-Host "Restoring taskbar and desktop layout..."

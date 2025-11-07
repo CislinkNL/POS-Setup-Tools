@@ -183,9 +183,54 @@ Write-Host "Allowing RustDesk remote service through firewall..." -ForegroundCol
 $RustDeskPath = "C:\Program Files\RustDesk\rustdesk.exe"
 if (Test-Path $RustDeskPath) {
     netsh advfirewall firewall add rule name="RustDesk Service" dir=in action=allow program="$RustDeskPath" enable=yes | Out-Null
+    netsh advfirewall firewall add rule name="RustDesk Service Out" dir=out action=allow program="$RustDeskPath" enable=yes | Out-Null
 }
 
-Write-Host "Firewall configuration complete: Internal LAN fully allowed, external traffic blocked." -ForegroundColor Green
+# 允许 Python POS 服务器端口 (8001-8004)
+Write-Host "Allowing Python POS server ports (8001-8004)..." -ForegroundColor Cyan
+netsh advfirewall firewall add rule name="POS Python Server Inbound" dir=in action=allow protocol=TCP localport=8001,8002,8003,8004 enable=yes | Out-Null
+netsh advfirewall firewall add rule name="POS Python Server Outbound" dir=out action=allow protocol=TCP localport=8001,8002,8003,8004 enable=yes | Out-Null
+
+# 允许 Chrome Remote Desktop
+Write-Host "Allowing Chrome Remote Desktop..." -ForegroundColor Cyan
+$ChromeRDPaths = @(
+    "$env:LOCALAPPDATA\Google\Chrome Remote Desktop\*\remoting_host.exe",
+    "C:\Program Files (x86)\Google\Chrome Remote Desktop\*\remoting_host.exe"
+)
+foreach ($path in $ChromeRDPaths) {
+    $resolvedPaths = Get-Item $path -ErrorAction SilentlyContinue
+    if ($resolvedPaths) {
+        foreach ($resolvedPath in $resolvedPaths) {
+            netsh advfirewall firewall add rule name="Chrome Remote Desktop" dir=in action=allow program="$($resolvedPath.FullName)" enable=yes | Out-Null
+            netsh advfirewall firewall add rule name="Chrome Remote Desktop Out" dir=out action=allow program="$($resolvedPath.FullName)" enable=yes | Out-Null
+        }
+    }
+}
+
+# 允许 Cloudflare 服务 (cloudflared.exe)
+Write-Host "Allowing Cloudflare services..." -ForegroundColor Cyan
+$CloudflarePaths = @(
+    "$env:ProgramFiles\cloudflared\cloudflared.exe",
+    "$env:LOCALAPPDATA\cloudflared\cloudflared.exe",
+    "C:\cloudflared\cloudflared.exe"
+)
+foreach ($cfPath in $CloudflarePaths) {
+    if (Test-Path $cfPath) {
+        netsh advfirewall firewall add rule name="Cloudflare Tunnel" dir=in action=allow program="$cfPath" enable=yes | Out-Null
+        netsh advfirewall firewall add rule name="Cloudflare Tunnel Out" dir=out action=allow program="$cfPath" enable=yes | Out-Null
+    }
+}
+
+# 允许 HTTPS (443) 和 HTTP (80) 出站连接（用于 Cloudflare 和其他服务）
+Write-Host "Allowing HTTPS/HTTP outbound connections..." -ForegroundColor Cyan
+netsh advfirewall firewall add rule name="HTTPS Outbound" dir=out action=allow protocol=TCP remoteport=443 enable=yes | Out-Null
+netsh advfirewall firewall add rule name="HTTP Outbound" dir=out action=allow protocol=TCP remoteport=80 enable=yes | Out-Null
+
+# 允许 DNS (53) 出站
+netsh advfirewall firewall add rule name="DNS Outbound" dir=out action=allow protocol=UDP remoteport=53 enable=yes | Out-Null
+netsh advfirewall firewall add rule name="DNS TCP Outbound" dir=out action=allow protocol=TCP remoteport=53 enable=yes | Out-Null
+
+Write-Host "Firewall configuration complete: Internal LAN + Essential services allowed." -ForegroundColor Green
 
 # --- 8. 自动启动 POS 程序 ---
 Write-Host "Adding POS app to startup..."

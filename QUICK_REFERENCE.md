@@ -532,6 +532,30 @@ foreach ($net in $InternalNetworks) {
 netsh advfirewall firewall add rule name="Loopback" dir=in action=allow localip=127.0.0.1 remoteip=127.0.0.1
 ```
 
+### POS Setup 白名单服务
+
+POS Setup 脚本自动配置以下白名单：
+
+```powershell
+# Python POS 服务器端口 (8001-8004)
+netsh advfirewall firewall add rule name="POS Python Server" dir=in action=allow protocol=TCP localport=8001,8002,8003,8004
+
+# RustDesk 远程管理
+netsh advfirewall firewall add rule name="RustDesk Service" dir=in action=allow program="C:\Program Files\RustDesk\rustdesk.exe"
+
+# Chrome Remote Desktop
+netsh advfirewall firewall add rule name="Chrome Remote Desktop" dir=in action=allow program="<Chrome RD Path>"
+
+# Cloudflare 服务
+netsh advfirewall firewall add rule name="Cloudflare Tunnel" dir=in action=allow program="C:\cloudflared\cloudflared.exe"
+
+# HTTPS/HTTP 出站
+netsh advfirewall firewall add rule name="HTTPS Outbound" dir=out action=allow protocol=TCP remoteport=443
+
+# DNS 出站
+netsh advfirewall firewall add rule name="DNS Outbound" dir=out action=allow protocol=UDP remoteport=53
+```
+
 ---
 
 ## 🖥️ RustDesk 远程管理（Cislink 版本）

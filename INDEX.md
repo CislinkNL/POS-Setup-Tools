@@ -57,6 +57,8 @@
 
 - [`SECURITY_GUIDE.md`](./docs/SECURITY_GUIDE.md) - 安全使用指南
 - [`SECURITY_IMPROVEMENTS.md`](./docs/SECURITY_IMPROVEMENTS.md) - 安全改进说明
+- [`Firewall_Whitelist_CN.md`](./docs/Firewall_Whitelist_CN.md) - 🔥 **防火墙白名单配置**（中文）
+- [`Firewall_Whitelist_NL.md`](./docs/Firewall_Whitelist_NL.md) - 🔥 **Firewall Whitelist Configuratie**（荷兰文）
 
 ### RustDesk 远程管理
 
