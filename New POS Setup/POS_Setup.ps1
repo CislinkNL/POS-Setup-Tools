@@ -244,13 +244,16 @@ foreach ($path in $ChromeRDPaths) {
 Write-Host "Allowing Cloudflare services..." -ForegroundColor Cyan
 $CloudflarePaths = @(
     "$env:ProgramFiles\cloudflared\cloudflared.exe",
+    "${env:ProgramFiles(x86)}\cloudflared\cloudflared.exe",
     "$env:LOCALAPPDATA\cloudflared\cloudflared.exe",
     "C:\cloudflared\cloudflared.exe"
 )
 foreach ($cfPath in $CloudflarePaths) {
     if (Test-Path $cfPath) {
+        Write-Host "  Found cloudflared at: $cfPath" -ForegroundColor Gray
         netsh advfirewall firewall add rule name="Cloudflare Tunnel" dir=in action=allow program="$cfPath" enable=yes | Out-Null
         netsh advfirewall firewall add rule name="Cloudflare Tunnel Out" dir=out action=allow program="$cfPath" enable=yes | Out-Null
+        Write-Host "  ✓ Cloudflare rules added" -ForegroundColor Green
     }
 }
 
